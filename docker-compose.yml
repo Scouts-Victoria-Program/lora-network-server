@@ -16,6 +16,7 @@ services:
       - MQTT_BROKER_HOST=mosquitto
       - REDIS_HOST=redis
       - POSTGRESQL_HOST=postgres
+      - CHIRPSTACK_SECRET=$CHIRPSTACK_SECRET
     ports:
       - 8080:8080
 
@@ -32,7 +33,7 @@ services:
       - INTEGRATION__MQTT__COMMAND_TOPIC_TEMPLATE=eu868/gateway/{{ .GatewayID }}/command/#
     depends_on:
       - mosquitto
-  
+
   chirpstack-gateway-bridge-basicstation:
     image: chirpstack/chirpstack-gateway-bridge:4
     restart: unless-stopped
@@ -74,7 +75,7 @@ services:
     restart: unless-stopped
     ports:
       - 1883:1883
-    volumes: 
+    volumes:
       - ./configuration/mosquitto/config/:/mosquitto/config/
 
 volumes:
