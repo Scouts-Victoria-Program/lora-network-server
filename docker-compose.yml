@@ -5,6 +5,10 @@ services:
     image: chirpstack/chirpstack:4
     command: -c /etc/chirpstack
     restart: unless-stopped
+    networks:
+      - lora
+    ports:
+      - 8080:8080
     volumes:
       - ./configuration/chirpstack:/etc/chirpstack
       - ./lorawan-devices:/opt/lorawan-devices
@@ -17,12 +21,12 @@ services:
       - REDIS_HOST=redis
       - POSTGRESQL_HOST=postgres
       - CHIRPSTACK_SECRET=$CHIRPSTACK_SECRET
-    ports:
-      - 8080:8080
 
   chirpstack-gateway-bridge:
     image: chirpstack/chirpstack-gateway-bridge:4
     restart: unless-stopped
+    networks:
+      - lora
     ports:
       - 1700:1700/udp
     volumes:
@@ -38,6 +42,8 @@ services:
     image: chirpstack/chirpstack-gateway-bridge:4
     restart: unless-stopped
     command: -c /etc/chirpstack-gateway-bridge/chirpstack-gateway-bridge-basicstation-eu868.toml
+    networks:
+      - lora
     ports:
       - 3001:3001
     volumes:
@@ -49,6 +55,8 @@ services:
     image: chirpstack/chirpstack-rest-api:4
     restart: unless-stopped
     command: --server chirpstack:8080 --bind 0.0.0.0:8090 --insecure
+    networks:
+      - lora
     ports:
       - 8090:8090
     depends_on:
@@ -57,6 +65,8 @@ services:
   postgres:
     image: postgres:14-alpine
     restart: unless-stopped
+    networks:
+      - lora
     volumes:
       - ./configuration/postgresql/initdb:/docker-entrypoint-initdb.d
       - postgresqldata:/var/lib/postgresql/data
@@ -67,17 +77,84 @@ services:
     image: redis:7-alpine
     restart: unless-stopped
     command: redis-server --save 300 1 --save 60 100 --appendonly no
+    networks:
+      - lora
     volumes:
       - redisdata:/data
 
   mosquitto:
     image: eclipse-mosquitto:2
     restart: unless-stopped
+    networks:
+      - lora
     ports:
       - 1883:1883
     volumes:
       - ./configuration/mosquitto/config/:/mosquitto/config/
 
+  svstem-lora-proxy:
+    build: ./lora-proxy
+    restart: unless-stopped
+    command: start.sh
+    networks:
+      - lora
+    ports:
+      - 3000:3000
+    volumes:
+      - proxydata:/data/
+
+  nginx:
+    image: nginx:latest
+    restart: unless-stopped
+    networks:
+      - lora
+    ports:
+      - 80:80
+    volumes:
+      - ./configuration/nginx/:/etc/nginx/conf.d/
+
+  kea:
+    # https://gitlab.isc.org/isc-projects/kea-docker
+    image: docker.cloudsmith.io/isc/docker/kea-dhcp4:2.5.2
+    restart: unless-stopped
+    networks:
+      kea:
+        ipv4_address: 192.168.50.2
+    ports:
+      - 67:67/tcp
+      - 67:67/udp
+    volumes:
+      - ./configuration/isc-kea/:/etc/kea
+      # - keadata:/var/lib/kea
+
+  bind:
+    # https://hub.docker.com/r/internetsystemsconsortium/bind9
+    image: internetsystemsconsortium/bind9:9.18
+    restart: unless-stopped
+    networks:
+      - lora
+    ports:
+      - 53:53/udp
+      - 53:53/tcp
+    volumes:
+      - ./configuration/bind/:/etc/bind
+
 volumes:
   postgresqldata:
   redisdata:
+  proxydata:
+  # keadata:
+
+networks:
+  kea:
+    driver: ipvlan
+    subnet: 192.168.50.0/24
+    gateway: 192.168.50.1
+    driver_opts:
+      parent: br0
+    ipam:
+      driver: default
+      config:
+        - subnet: "192.168.50.0/24"
+  lora:
+    driver: bridge

@@ -1,0 +1,10 @@
+$ORIGIN au1.cloud.thethings.network.
+$TTL 1h ;
+@               IN  SOA dns.darends.scouthack.com. hostmaster.scouthack.com. (
+                    2024021501   ; serial number
+                    1h           ; refresh
+                    15m          ; retry
+                    1d           ; expire
+                    15m        ) ; minimum
+
+@             CNAME chirpstack.arends.scouthack.com
