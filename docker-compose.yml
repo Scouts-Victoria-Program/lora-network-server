@@ -93,7 +93,10 @@ services:
       - ./configuration/mosquitto/config/:/mosquitto/config/
 
   svstem-lora-proxy:
-    build: ./lora-proxy
+    # Disable build as this feature hasnt been built yet.
+    # build: ./lora-proxy
+    # Use a basic image just to hold the spot.
+    image: nginx:latest
     restart: unless-stopped
     command: start.sh
     networks:
@@ -124,7 +127,7 @@ services:
       - 67:67/tcp
       - 67:67/udp
     volumes:
-      - ./configuration/isc-kea/:/etc/kea
+      - ./configuration/isc-kea/kea-dhcp4.conf:/etc/kea/kea-dhcp4.conf
       # - keadata:/var/lib/kea
 
   bind:
@@ -148,8 +151,6 @@ volumes:
 networks:
   kea:
     driver: ipvlan
-    subnet: 192.168.50.0/24
-    gateway: 192.168.50.1
     driver_opts:
       parent: br0
     ipam:
