@@ -7,7 +7,9 @@ $TTL 1h ;
                     1d           ; expire
                     15m        ) ; minimum
 
+@               NS  ns
 @               A   192.168.50.1
+ns              A   192.168.50.1
 dns             A   192.168.50.1
 dhcp            A   192.168.50.2
 
@@ -17,4 +19,3 @@ game            A   192.168.50.1
 lora-network    A   192.168.50.1
 lora-app        A   192.168.50.1
 lora-gateway    A   192.168.50.10
-

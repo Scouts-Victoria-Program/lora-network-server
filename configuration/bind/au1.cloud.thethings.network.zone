@@ -7,4 +7,5 @@ $TTL 1h ;
                     1d           ; expire
                     15m        ) ; minimum
 
-@             CNAME chirpstack.darends.scouthack.com
+@               NS    ns.darends.scouthack.com.
+@               A     192.168.50.1
