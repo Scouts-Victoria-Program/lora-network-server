@@ -13,7 +13,7 @@
    [Sentrius RG191](https://www.lairdconnect.com/iot-devices/lorawan-iot-devices/sentrius-rg1xx-lorawan-gateway-wi-fi-ethernet-optional-lte-us-only)
 
 1. LoRa GPS Tracker:
-   [Dragino LGT-92](dragino.com/downloads/index.php?dir=LGT_92/)
+   [Dragino LGT-92](https://dragino.com/downloads/index.php?dir=LGT_92/)
 
 # Set up steps to bring the SVStem LoRa Network server online
 
