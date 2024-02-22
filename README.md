@@ -15,6 +15,24 @@
 1. LoRa GPS Tracker:
    [Dragino LGT-92](https://dragino.com/downloads/index.php?dir=LGT_92/)
 
+## Dragino GPS Tracker Status LED
+
+| Event               | Action                              | AT+LON\* | AT+MLON\* |
+| ------------------- | ----------------------------------- | -------- | --------- |
+| Power On            | BLUE, RED, Green flash once         | N/A      | N/A       |
+| Join request        | BLUE led fast blink once (200ms)    | Yes      | N/A       |
+| Join Success        | Purple led on 1 second              | N/A      | N/A       |
+| Fixing Location     | GREEN blinks 200ms per second       | Yes      | N/A       |
+| Fixed and uplink    | BLUE blinks twice (200ms per blink) | Yes      | N/A       |
+| Fail Fix and uplink | RED blinks twice (200ms per blink)  | Yes      | N/A       |
+| Enter Alarm mode    | RED on five seconds                 | N/A      | N/A       |
+| Uplink under Alarm  | RED on one second                   | Yes      | N/A       |
+| Exit Alarm          | BLUE on one second                  | Yes      | N/A       |
+| Downlink Modify TDC | GREEN led on 1 second               | Yes      | N/A       |
+| Movement Detect     | Red on 500ms                        | N/A      | Yes       |
+
+\* to control on/off
+
 # Set up steps to bring the SVStem LoRa Network server online
 
 ## Clone this repo onto the server
