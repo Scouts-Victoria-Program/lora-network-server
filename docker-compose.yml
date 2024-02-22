@@ -72,6 +72,9 @@ services:
       - postgresqldata:/var/lib/postgresql/data
     environment:
       - POSTGRES_PASSWORD=root
+    depends_on:
+      - kea
+      - bind
 
   redis:
     image: redis:7-alpine
@@ -81,6 +84,9 @@ services:
       - lora
     volumes:
       - redisdata:/data
+    depends_on:
+      - kea
+      - bind
 
   mosquitto:
     image: eclipse-mosquitto:2
@@ -91,6 +97,9 @@ services:
       - 1883:1883
     volumes:
       - ./configuration/mosquitto/config/:/mosquitto/config/
+    depends_on:
+      - kea
+      - bind
 
   svstem-lora-proxy:
     # Disable build as this feature hasnt been built yet.
@@ -106,6 +115,9 @@ services:
     volumes:
       - ./lora-proxy/:/etc/nginx/conf.d/
       - proxydata:/data/
+    depends_on:
+      - kea
+      - bind
 
   nginx:
     image: nginx:latest
@@ -117,6 +129,9 @@ services:
     volumes:
       - ./configuration/nginx/:/etc/nginx/conf.d/
       - ./nginx/default/:/usr/share/nginx/html:ro
+    depends_on:
+      - kea
+      - bind
 
   kea:
     # https://gitlab.isc.org/isc-projects/kea-docker
@@ -130,7 +145,6 @@ services:
       - 67:67/udp
     volumes:
       - ./configuration/isc-kea/kea-dhcp4.conf:/etc/kea/kea-dhcp4.conf
-      # - keadata:/var/lib/kea
 
   bind:
     # https://hub.docker.com/r/internetsystemsconsortium/bind9
@@ -148,7 +162,6 @@ volumes:
   postgresqldata:
   redisdata:
   proxydata:
-  # keadata:
 
 networks:
   kea:
