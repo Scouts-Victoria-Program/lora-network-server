@@ -98,12 +98,13 @@ services:
     # Use a basic image just to hold the spot.
     image: nginx:latest
     restart: unless-stopped
-    command: start.sh
+    # command: start.sh
     networks:
       - lora
     ports:
       - 3000:3000
     volumes:
+      - ./lora-proxy/:/etc/nginx/conf.d/
       - proxydata:/data/
 
   nginx:
@@ -115,6 +116,7 @@ services:
       - 80:80
     volumes:
       - ./configuration/nginx/:/etc/nginx/conf.d/
+      - ./nginx/default/:/usr/share/nginx/html:ro
 
   kea:
     # https://gitlab.isc.org/isc-projects/kea-docker
