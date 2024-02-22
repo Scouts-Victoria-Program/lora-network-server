@@ -11,7 +11,7 @@ services:
       - 8080:8080
     volumes:
       - ./configuration/chirpstack:/etc/chirpstack
-      - ./lorawan-devices:/opt/lorawan-devices
+      - ./lorawan-devices-repo:/tmp/lorawan-devices
     depends_on:
       - postgres
       - mosquitto

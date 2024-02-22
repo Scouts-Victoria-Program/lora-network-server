@@ -78,3 +78,18 @@ To later stop the containers use
 ```
 sudo docker compose down
 ```
+
+## Import LoRa device templates
+
+```
+sudo chown darends:user ./lorawan-devices-repo
+git clone https://github.com/brocaar/lorawan-devices ./lorawan-devices-repo
+sudo docker compose exec chirpstack sh
+
+# inside container
+chirpstack -c /etc/chirpstack import-legacy-lorawan-devices-repository -d /tmp/lorawan-devices
+exit
+
+# outside container
+rm -rf ./lorawan-devices-repo
+```
