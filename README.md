@@ -128,3 +128,21 @@ exit
 # outside container
 rm -rf ./lorawan-devices-repo
 ```
+
+## Configure Gateway in Chirpstack
+
+### Get gateway ID
+
+1. Browse to http://gateway.arends.scouthack.com
+   1. Login using sentrius:RG1xx
+   1. Navigate to "Settings > Save/Restore Settings" to make a back up of the configuration
+   1. Navigate to "LoRa > Forwarder"
+   1. Check forwarder address is au1.cloud.thethings.network:1700
+   1. Find the gateway id Gateway ID (EUI64)
+
+### Add gateway to Chirpstack
+
+1. Browse to http://chirpstack.arends.scouthack.com
+   1. Login using admin:admin
+1. Create Gateway
+1. Configure gateway id "Gateway ID (EUI64)"
