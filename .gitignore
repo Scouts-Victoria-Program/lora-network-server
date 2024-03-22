@@ -4,3 +4,6 @@
 # data folder
 /data
 /lorawan-devices-repo
+
+# node modules
+node_modules
