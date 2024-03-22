@@ -14,6 +14,9 @@ export class MqttManager {
     // Connect to the MQTT server provided by a LoRa Network Server.
     this.client.on("connect", () => this.handleMqttConnect());
 
+    // Output errors to stdout.
+    this.client.on("error", (e) => console.error(e));
+
     // Handle messages from subscribed topics.
     this.client.on("message", (topic: string, message: Buffer) =>
       this.handleMqttMessage(topic, message)

@@ -6,9 +6,11 @@
   "scripts": {
     "dev": "nodemon -w src/server -x tsx src/server/index.ts",
     "start": "NODE_ENV=production tsx src/server/index.ts",
-    "build": "vite build"
+    "build": "vite build",
+    "start-docker": "npx prisma generate && npx prisma migrate deploy && npm run start"
   },
   "dependencies": {
+    "@prisma/client": "^5.11.0",
     "express": "^4.19.1",
     "mqtt": "^5.5.0",
     "tsx": "^4.7.1",

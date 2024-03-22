@@ -1,6 +1,6 @@
 export interface MqttProvider {
   getTopicWildcard: () => string;
-  getTopic: (deviceId: string) => string;
+  getTopicCommand: (deviceId: string) => string;
   getBrokerUrl: () => string;
   parseMessage: (message: string) => LoRaMessage;
 }

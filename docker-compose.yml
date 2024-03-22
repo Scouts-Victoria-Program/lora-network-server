@@ -1,5 +1,3 @@
-version: "3"
-
 services:
   chirpstack:
     image: chirpstack/chirpstack:4
@@ -102,12 +100,8 @@ services:
       - bind
 
   svstem-lora-proxy:
-    # Disable build as this feature hasnt been built yet.
-    # build: ./lora-proxy
-    # Use a basic image just to hold the spot.
-    image: nginx:latest
+    build: ./lora-proxy
     restart: unless-stopped
-    # command: start.sh
     networks:
       - lora
     ports:
@@ -118,6 +112,7 @@ services:
     depends_on:
       - kea
       - bind
+      - chirpstack
 
   nginx:
     image: nginx:latest
