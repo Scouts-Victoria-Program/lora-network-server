@@ -124,7 +124,7 @@ services:
       - MQTT_BROKER_TYPE=chirpstack
       - MQTT_APP_ID=$CHIRPSTACK_APPLICATION_ID
 
-      - WEBHOOK_TARGET=http://game/api/webhook
+      - WEBHOOK_TARGET=http://game.darends.scouthack.com/api/injest
 
   nginx:
     image: nginx:latest
@@ -139,6 +139,8 @@ services:
     depends_on:
       - kea
       - bind
+      - svstem-lora-proxy
+      - chirpstack
 
   kea:
     # https://gitlab.isc.org/isc-projects/kea-docker

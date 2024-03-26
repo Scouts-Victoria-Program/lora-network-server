@@ -14,8 +14,9 @@ dns             A   192.168.50.1
 dhcp            A   192.168.50.2
 
 chirpstack      A   192.168.50.1
-game            A   192.168.50.1
 
 lora-network    A   192.168.50.1
 lora-app        A   192.168.50.1
 lora-gateway    A   192.168.50.10
+
+game            A   192.168.50.1
