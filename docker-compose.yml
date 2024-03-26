@@ -113,6 +113,18 @@ services:
       - kea
       - bind
       - chirpstack
+    environment:
+      # - MQTT_BROKER_HOST=broker.emqx.io
+
+      # - MQTT_BROKER_HOST=au1.cloud.thethings.network
+      # - MQTT_BROKER_TYPE=ttn
+      # - MQTT_APP_ID=$TTN_USERNAME
+
+      - MQTT_BROKER_HOST=mosquitto
+      - MQTT_BROKER_TYPE=chirpstack
+      - MQTT_APP_ID=$CHIRPSTACK_APPLICATION_ID
+
+      - WEBHOOK_TARGET=http://game/api/webhook
 
   nginx:
     image: nginx:latest

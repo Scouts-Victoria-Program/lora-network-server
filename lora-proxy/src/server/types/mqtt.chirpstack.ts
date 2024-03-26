@@ -39,13 +39,13 @@ export interface MqttChirpStackMessageUp {
   confirmed: boolean;
   data: string;
   object: {
-    latitude: number;
-    LON: boolean;
-    MD: "Disable" | "Move" | "Collide" | "User";
-    FW: number;
-    ALARM_status: boolean;
-    longitude: number;
+    latitude?: number;
+    longitude?: number;
     BatV: number;
+    ALARM_status: boolean;
+    MD: "Disable" | "Move" | "Collide" | "User";
+    LON: boolean;
+    FW: number;
   };
   rxInfo: {
     gatewayId: string;

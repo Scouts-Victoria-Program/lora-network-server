@@ -1,8 +1,9 @@
+import { MqttProvider } from "../../types/mqtt";
 import {
   MqttChirpStackMessage,
   MqttChirpStackMessageUp,
-} from "../types/mqtt.chirpstack";
-import { LoRaMessage, MqttProvider } from "../types/mqtt.proxy";
+} from "../../types/mqtt.chirpstack";
+import { LoRaMessage } from "../../types/proxy";
 
 interface MqttChirpStackProviderOptions {
   applicationId: string;
@@ -65,18 +66,18 @@ export class MqttChirpStackProvider implements MqttProvider {
           message.deviceInfo.deviceName
         } ${JSON.stringify(uplink)}`
       );
-      throw new Error(
-        `GPS trace missing lat or long ${
-          message.deviceInfo.deviceName
-        } ${JSON.stringify(uplink)}`
-      );
+      // throw new Error(
+      //   `GPS trace missing lat or long ${
+      //     message.deviceInfo.deviceName
+      //   } ${JSON.stringify(uplink)}`
+      // );
     }
 
     return {
       datetime: message.time,
       deviceId: message.deviceInfo.deviceName,
-      latitude: uplink.latitude,
-      longitude: uplink.longitude,
+      latitude: uplink.latitude ?? 0,
+      longitude: uplink.longitude ?? 0,
       battery: uplink.BatV,
       alarmStatus: uplink.ALARM_status,
       ledEnabled: uplink.LON,

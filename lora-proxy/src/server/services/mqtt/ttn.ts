@@ -1,5 +1,6 @@
-import { LoRaMessage, MqttProvider } from "../types/mqtt.proxy";
-import { MqttTTNMessage, MqttTTNMessageUp } from "../types/mqtt.ttn";
+import { MqttProvider } from "../../types/mqtt";
+import { MqttTTNMessage, MqttTTNMessageUp } from "../../types/mqtt.ttn";
+import { LoRaMessage } from "../../types/proxy";
 
 interface MqttTTNProviderOptions {
   username: string;

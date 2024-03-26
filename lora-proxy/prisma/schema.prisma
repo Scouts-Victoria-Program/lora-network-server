@@ -27,4 +27,5 @@ model WebhookCall {
   request    Json
   response   Json
   statusCode Int
+  statusText String
 }

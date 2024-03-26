@@ -1,5 +1,5 @@
 import ViteExpress from "vite-express";
-import { createApiApp } from "./api";
+import { createApiApp } from "./services/api";
 import { startLoRaProxy } from "./lora-proxy";
 
 const mqttManager = await startLoRaProxy();
