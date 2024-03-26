@@ -1,14 +1,14 @@
 import { configHtml } from "./configuration";
 import { downLinkHtml } from "./downLink";
-import { eventsHtml, eventsPoller } from "./events";
-import { webhooksHtml, webhooksPoller } from "./webhooks";
+import { eventPollController, eventsHtml } from "./events";
+import { webhookPollController, webhooksHtml } from "./webhooks";
 import { styles } from "./styles";
 
 document.querySelector<HTMLDivElement>("#app")!.innerHTML = `
   <div>
     <div class="row">
-  <div>
-    <h1>LoRa Proxy</h1>
+      <div>
+        <h1>LoRa Proxy</h1>
       </div>
     </div>
     <div class="row">
@@ -25,10 +25,5 @@ document.querySelector<HTMLDivElement>("#app")!.innerHTML = `
   </style>
 `;
 
-function poll(fn: () => any, interval: number) {
-  setInterval(fn, interval);
-  fn();
-}
-
-poll(webhooksPoller, 5000);
-poll(eventsPoller, 5000);
+webhookPollController.start();
+eventPollController.start();

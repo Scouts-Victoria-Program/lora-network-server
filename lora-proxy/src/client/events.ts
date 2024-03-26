@@ -1,10 +1,11 @@
 import { GetEvents } from "../server/types/api";
-import { addTableRow, tryFormatJSON } from "./util";
+import { addTableRow, poll, tryFormatJSON } from "./util";
 
 export function eventsHtml() {
   return `
     <div id="events">
       <h2>MQTT Events</h2>
+      <span class="tail-status" style="display:none;"></span>
       <table>
         <thead>
           <th>datetime</th>
@@ -20,7 +21,7 @@ export function eventsHtml() {
 
 let cursorId: number | null = null;
 
-export async function eventsPoller() {
+async function eventsPoller() {
   const res = await fetch(`/api/events${cursorId ? "?from=" + cursorId : ""}`);
   const data = (await res.json()) as GetEvents;
 
@@ -34,3 +35,25 @@ export async function eventsPoller() {
     ]);
   }
 }
+
+let failureCounter = 0;
+export const eventPollController = poll(async () => {
+  try {
+    await eventsPoller();
+  } catch {
+    failureCounter += 1;
+
+    if (failureCounter > 5) {
+      eventPollController.stop();
+
+      const tailStatus = document.querySelector<HTMLSpanElement>(
+        "#events .tail-status"
+      );
+
+      if (tailStatus) {
+        tailStatus.innerText = "Live log tailing disabled.";
+        tailStatus.style.display = "inline";
+      }
+    }
+  }
+}, 5000);

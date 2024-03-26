@@ -22,3 +22,19 @@ export function tryFormatJSON(probablyJSON: string): string {
     return probablyJSON;
   }
 }
+
+export function poll(fn: () => any, time: number) {
+  let interval: NodeJS.Timeout | null = null;
+
+  return {
+    start() {
+      fn();
+      interval = setInterval(fn, time);
+    },
+    stop() {
+      if (interval !== null) {
+        clearInterval(interval);
+      }
+    },
+  };
+}

@@ -9,18 +9,29 @@ export function createApiApp(mqttManager: MqttManager) {
   app.get("/api/events", async (req, res) => {
     const fromId = req.query.from ? Number(req.query.from) : undefined;
 
-    const events = await prisma.event.findMany({
-      orderBy: {
-        datetime: "asc",
-      },
-      cursor: fromId
-        ? {
-            id: fromId,
-          }
-        : undefined,
-      skip: fromId ? 1 : 0,
-      take: 50,
-    });
+    let events = [];
+    if (fromId) {
+      events = await prisma.event.findMany({
+        orderBy: {
+          datetime: "asc",
+        },
+        cursor: {
+          id: fromId,
+        },
+        skip: 1,
+        take: 50,
+      });
+    } else {
+      events = await prisma.event.findMany({
+        orderBy: {
+          datetime: "desc",
+        },
+
+        take: 5,
+      });
+
+      events = events.reverse();
+    }
 
     const nextFromId =
       events.length > 0 ? events[events.length - 1]?.id ?? fromId : fromId;
@@ -42,18 +53,29 @@ export function createApiApp(mqttManager: MqttManager) {
   app.get("/api/webhooks", async (req, res) => {
     const fromId = req.query.from ? Number(req.query.from) : undefined;
 
-    const webhooks = await prisma.webhookCall.findMany({
-      orderBy: {
-        datetime: "asc",
-      },
-      cursor: fromId
-        ? {
-            id: fromId,
-          }
-        : undefined,
-      skip: fromId ? 1 : 0,
-      take: 50,
-    });
+    let webhooks = [];
+    if (fromId) {
+      webhooks = await prisma.webhookCall.findMany({
+        orderBy: {
+          datetime: "asc",
+        },
+        cursor: {
+          id: fromId,
+        },
+        skip: 1,
+        take: 50,
+      });
+    } else {
+      webhooks = await prisma.webhookCall.findMany({
+        orderBy: {
+          datetime: "desc",
+        },
+
+        take: 5,
+      });
+
+      webhooks = webhooks.reverse();
+    }
 
     const nextFromId =
       webhooks.length > 0

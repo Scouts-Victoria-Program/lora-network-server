@@ -1,10 +1,11 @@
 import { GetWebhookCalls } from "../server/types/api";
-import { addTableRow, tryFormatJSON } from "./util";
+import { addTableRow, poll, tryFormatJSON } from "./util";
 
 export function webhooksHtml() {
   return `
     <div id="webhooks">
       <h2>Webhook Call Log</h2>
+      <span class="tail-status" style="display:none;"></span>
       <table>
         <thead>
             <th>datetime</th>
@@ -21,8 +22,7 @@ export function webhooksHtml() {
 }
 
 let cursorId: number | null = null;
-
-export async function webhooksPoller() {
+async function webhooksPoller() {
   const res = await fetch(
     `/api/webhooks${cursorId ? "?from=" + cursorId : ""}`
   );
@@ -40,3 +40,25 @@ export async function webhooksPoller() {
     ]);
   }
 }
+
+let failureCounter = 0;
+export const webhookPollController = poll(async () => {
+  try {
+    await webhooksPoller();
+  } catch {
+    failureCounter += 1;
+
+    if (failureCounter > 5) {
+      webhookPollController.stop();
+
+      const tailStatus = document.querySelector<HTMLSpanElement>(
+        "#webhooks .tail-status"
+      );
+
+      if (tailStatus) {
+        tailStatus.innerText = "Live log tailing disabled.";
+        tailStatus.style.display = "inline";
+      }
+    }
+  }
+}, 5000);
