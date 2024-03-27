@@ -1,18 +1,18 @@
-# ChirpStack Docker example
+# ChirpStack & Docker explained
 
 This repository contains a skeleton to setup the [ChirpStack](https://www.chirpstack.io)
 open-source LoRaWAN Network Server (v4) using [Docker Compose](https://docs.docker.com/compose/).
 
 **Note:** Please use this `docker-compose.yml` file as a starting point for testing
-but keep in mind that for production usage it might need modifications. 
+but keep in mind that for production usage it might need modifications.
 
 ## Directory layout
 
-* `docker-compose.yml`: the docker-compose file containing the services
-* `configuration/chirpstack`: directory containing the ChirpStack configuration files
-* `configuration/chirpstack-gateway-bridge`: directory containing the ChirpStack Gateway Bridge configuration
-* `configuration/mosquitto`: directory containing the Mosquitto (MQTT broker) configuration
-* `configuration/postgresql/initdb/`: directory containing PostgreSQL initialization scripts
+- `docker-compose.yml`: the docker-compose file containing the services
+- `configuration/chirpstack`: directory containing the ChirpStack configuration files
+- `configuration/chirpstack-gateway-bridge`: directory containing the ChirpStack Gateway Bridge configuration
+- `configuration/mosquitto`: directory containing the Mosquitto (MQTT broker) configuration
+- `configuration/postgresql/initdb/`: directory containing PostgreSQL initialization scripts
 
 ## Configuration
 
@@ -20,10 +20,10 @@ This setup is pre-configured for all regions. You can either connect a ChirpStac
 instance (v3.14.0+) to the MQTT broker (port 1883) or connect a Semtech UDP Packet Forwarder.
 Please note that:
 
-* You must prefix the MQTT topic with the region.
+- You must prefix the MQTT topic with the region.
   Please see the region configuration files in the `configuration/chirpstack` for a list
   of topic prefixes (e.g. eu868, us915_0, au915_0, as923_2, ...).
-* The protobuf marshaler is configured.
+- The protobuf marshaler is configured.
 
 This setup also comes with two instances of the ChirpStack Gateway Bridge. One
 is configured to handle the Semtech UDP Packet Forwarder data (port 1700), the
