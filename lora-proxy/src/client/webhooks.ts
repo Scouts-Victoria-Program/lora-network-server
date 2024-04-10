@@ -1,4 +1,4 @@
-import { GetWebhookCalls } from "../server/types/api";
+import { GetWebhookCalls, PostWebhookCallRetry } from "../server/types/api";
 import { addTableRow, poll, tryFormatJSON } from "./util";
 
 export function webhooksHtml() {
@@ -31,12 +31,41 @@ async function webhooksPoller() {
   cursorId = data.nextFromId;
 
   for (const webhook of data.webhooks) {
+    const webhookId = webhook.id;
     addTableRow("#webhooks table tbody", [
       webhook.datetime,
       "<pre>" + tryFormatJSON(webhook.request) + "</pre>",
       "<pre>" + tryFormatJSON(webhook.response) + "</pre>",
       String(webhook.statusCode),
       webhook.statusText,
+      {
+        text: "Resend",
+        onClick: async (el, _event) => {
+          if (el.innerText !== "Resend") {
+            return;
+          }
+
+          el.innerHTML = "Resending";
+
+          try {
+            const res = await fetch(`/api/webhooks/${webhookId}/resend`, {
+              method: "post",
+            });
+            const data = (await res.json()) as PostWebhookCallRetry;
+            if (data.success && data.webhook.statusCode === 200) {
+              el.innerHTML = "Resent";
+            } else {
+              el.innerHTML = "Webhook Failed";
+            }
+          } catch (e) {
+            el.innerHTML = "Request Failed";
+          }
+
+          setTimeout(() => {
+            el.innerHTML = "Resend";
+          }, 3000);
+        },
+      },
     ]);
   }
 }

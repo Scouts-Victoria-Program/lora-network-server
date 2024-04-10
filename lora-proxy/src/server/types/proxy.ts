@@ -1,14 +1,17 @@
-export type LoRaMessage = {
+export type LoRaMessage = LoRaMessageJoin | LoRaMessageUp;
+
+type LoRaMessageBase = {
   deviceId: string;
   datetime: string;
-  topic: string;
-} & (LoRaMessageJoin | LoRaMessageUp);
+};
 
-interface LoRaMessageJoin {
+export type LoRaMessageJoin = LoRaMessageBase & {
+  type: "join";
   success: boolean;
-}
+};
 
-interface LoRaMessageUp {
+export type LoRaMessageUp = LoRaMessageBase & {
+  type: "up";
   latitude: number;
   longitude: number;
   battery: number;
@@ -16,7 +19,7 @@ interface LoRaMessageUp {
   ledEnabled: boolean;
   movementDetection: "Disable" | "Move" | "Collide" | "User";
   firmware: number;
-}
+};
 
 const commandList = {
   transmissionInterval: {

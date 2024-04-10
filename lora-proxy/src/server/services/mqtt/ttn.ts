@@ -39,6 +39,7 @@ export class MqttTTNProvider implements MqttProvider {
       return {
         datetime: new Date().toString(),
         deviceId: message.end_device_ids.device_id,
+        type: "join",
         success: true,
       };
     }
@@ -50,6 +51,7 @@ export class MqttTTNProvider implements MqttProvider {
     return {
       datetime: message.time,
       deviceId: message.deviceInfo.deviceName,
+      type: "join",
       success: false,
     };
   }
@@ -71,6 +73,7 @@ export class MqttTTNProvider implements MqttProvider {
     }
 
     return {
+      type: "up",
       datetime: message.uplink_message.rx_metadata[0].time,
       deviceId: message.end_device_ids.device_id,
       latitude: uplink.latitude,

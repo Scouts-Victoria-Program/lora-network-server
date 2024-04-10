@@ -1,3 +1,4 @@
+import { Prisma, WebhookCall } from "@prisma/client";
 import { prisma } from "./database";
 
 interface WebhookManagerOptions {
@@ -17,7 +18,7 @@ export class WebhookManager {
     };
   }
 
-  async send(eventData: unknown): Promise<void> {
+  async send(eventData: unknown): Promise<WebhookCall> {
     try {
       const response = await fetch(this.options.target, {
         method: "post",
@@ -26,7 +27,7 @@ export class WebhookManager {
 
       const result = await response.text();
 
-      await this.record({
+      return await this.record({
         req: JSON.stringify(eventData),
         res: result,
         status: response.status,
@@ -36,7 +37,7 @@ export class WebhookManager {
       const error = e as Error & { cause?: string };
       console.error("Error:", error);
 
-      await this.record({
+      return await this.record({
         req: JSON.stringify(eventData),
         res: error.toString() + error.cause,
         status: 500,
@@ -45,18 +46,34 @@ export class WebhookManager {
     }
   }
 
+  async resend(webhookId: number): Promise<WebhookCall> {
+    const webhook = await prisma.webhookCall.findUniqueOrThrow({
+      where: {
+        id: webhookId,
+      },
+    });
+
+    const originalReqData = JSON.parse(webhook.request as string);
+
+    if (!("type" in originalReqData)) {
+      originalReqData.type = "up";
+    }
+
+    return await this.send(originalReqData);
+  }
+
   private async record(data: {
     req: string;
     res: string;
     status: number;
     statusText: string;
-  }): Promise<void> {
+  }): Promise<WebhookCall> {
     console.log("webhook call: request:", data.req);
     console.log("webhook call: response:", data.res);
     console.log("webhook call: status:", data.status);
     console.log("webhook call: statusText:", data.statusText);
 
-    await prisma.webhookCall.create({
+    return await prisma.webhookCall.create({
       data: {
         datetime: new Date(),
         request: data.req,

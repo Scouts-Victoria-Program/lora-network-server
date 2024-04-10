@@ -42,6 +42,7 @@ export class MqttChirpStackProvider implements MqttProvider {
       return {
         datetime: message.time,
         deviceId: message.deviceInfo.deviceName,
+        type: "join",
         success: true,
       };
     }
@@ -53,6 +54,7 @@ export class MqttChirpStackProvider implements MqttProvider {
     return {
       datetime: message.time,
       deviceId: message.deviceInfo.deviceName,
+      type: "join",
       success: false,
     };
   }
@@ -74,6 +76,7 @@ export class MqttChirpStackProvider implements MqttProvider {
     }
 
     return {
+      type: "up",
       datetime: message.time,
       deviceId: message.deviceInfo.deviceName,
       latitude: uplink.latitude ?? 0,

@@ -13,7 +13,7 @@ export async function startLoRaProxy() {
     await webhookManager.send(event);
   });
 
-  return mqttManager;
+  return { mqttManager, webhookManager };
 }
 
 async function insertEvent(topic: string, event: LoRaMessage) {

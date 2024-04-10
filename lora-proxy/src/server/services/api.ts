@@ -1,9 +1,19 @@
 import express from "express";
 import { MqttManager } from "./mqtt/manager";
 import { prisma } from "./database";
-import { Event, GetEvents, GetWebhookCalls, WebhookCall } from "../types/api";
+import {
+  Event,
+  GetEvents,
+  GetWebhookCalls,
+  PostWebhookCallRetry,
+  WebhookCall,
+} from "../types/api";
+import { WebhookManager } from "./webhook";
 
-export function createApiApp(mqttManager: MqttManager) {
+export function createApiApp(
+  mqttManager: MqttManager,
+  webhookManager: WebhookManager
+) {
   const app = express();
 
   app.get("/api/events", async (req, res) => {
@@ -94,6 +104,29 @@ export function createApiApp(mqttManager: MqttManager) {
         })
       ),
       nextFromId: nextFromId ?? 0,
+    };
+    res.json(response);
+  });
+
+  app.post("/api/webhooks/:id/resend", async (req, res) => {
+    if (!req.params.id) {
+      res.status(400).send({ success: false, message: "Bad Request" });
+      return;
+    }
+    const webhookId = Number(req.params.id);
+
+    const newWebhook = await webhookManager.resend(webhookId);
+
+    const response: PostWebhookCallRetry = {
+      webhook: {
+        id: newWebhook.id,
+        datetime: newWebhook.datetime.toISOString(),
+        request: newWebhook.request?.toString() ?? "",
+        response: newWebhook.response?.toString() ?? "",
+        statusCode: newWebhook.statusCode,
+        statusText: newWebhook.statusText,
+      },
+      success: true,
     };
     res.json(response);
   });

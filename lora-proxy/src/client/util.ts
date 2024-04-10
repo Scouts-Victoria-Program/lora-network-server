@@ -1,4 +1,9 @@
-export function addTableRow(tbodySelector: string, cells: string[]) {
+interface Cell {
+  text?: string;
+  onClick?: (el: HTMLElement, ev: MouseEvent) => void;
+}
+
+export function addTableRow(tbodySelector: string, cells: (string | Cell)[]) {
   const tableBody = document.querySelector<HTMLDivElement>(tbodySelector);
 
   if (!tableBody) {
@@ -8,7 +13,16 @@ export function addTableRow(tbodySelector: string, cells: string[]) {
   const newTr = document.createElement("tr");
   for (const cell of cells) {
     const newTd = document.createElement("td");
-    newTd.innerHTML = cell;
+    if (typeof cell === "string") {
+      newTd.innerHTML = cell;
+    } else {
+      if (cell.onClick) {
+        newTd.addEventListener("click", function (event) {
+          cell.onClick?.(this, event);
+        });
+      }
+      newTd.innerHTML = cell.text ?? "";
+    }
     newTr.appendChild(newTd);
   }
 

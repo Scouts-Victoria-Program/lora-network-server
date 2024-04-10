@@ -15,6 +15,11 @@ export interface GetWebhookCalls {
   nextFromId: number;
 }
 
+export interface PostWebhookCallRetry {
+  webhook: WebhookCall;
+  success: boolean;
+}
+
 export interface WebhookCall {
   id: number;
   datetime: string;
