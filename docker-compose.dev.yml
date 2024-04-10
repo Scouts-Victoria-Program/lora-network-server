@@ -102,6 +102,7 @@ services:
   lora-proxy:
     build: ./lora-proxy
     restart: unless-stopped
+    command: npm run dev
     networks:
       - lora
     ports:
@@ -125,6 +126,15 @@ services:
       - MQTT_APP_ID=$CHIRPSTACK_APPLICATION_ID
 
       - WEBHOOK_TARGET=http://game.darends.scouthack.com:3333/api/injest
+    develop:
+      watch:
+        - action: sync
+          path: ./lora-proxy
+          target: ./home/node/app
+          ignore:
+            - node_modules/
+        - action: rebuild
+          path: ./lora-proxy/package.json
 
   nginx:
     image: nginx:latest

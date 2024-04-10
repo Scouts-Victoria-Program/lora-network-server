@@ -121,4 +121,4 @@ rm -rf ./lorawan-devices-repo
    1. Copy the id of the application
 1. Edit `.env`
    1. Set `CHIRPSTACK_APPLICATION_ID=` to the new application id
-1. `sudo docker compose up -p svstem-lora-proxy`
+1. `sudo docker compose up -p lora-proxy`
