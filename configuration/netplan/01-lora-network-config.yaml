@@ -4,14 +4,18 @@ network:
   ethernets:
     enp1s0:
       dhcp4: true
+      optional: true
       dhcp4-overrides:
         use-dns: false
     enp2s0:
       dhcp4: false
+      optional: true
     enp3s0:
       dhcp4: false
+      optional: true
     enp4s0:
       dhcp4: false
+      optional: true
   bridges:
     br0:
       addresses:
