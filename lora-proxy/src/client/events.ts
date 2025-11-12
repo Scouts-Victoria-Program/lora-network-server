@@ -22,7 +22,7 @@ export function eventsHtml() {
 let cursorId: number | null = null;
 
 async function eventsPoller() {
-  const res = await fetch(`/api/events${cursorId ? "?from=" + cursorId : ""}`);
+  const res = await fetch(`api/events${cursorId ? "?from=" + cursorId : ""}`);
   const data = (await res.json()) as GetEvents;
 
   cursorId = data.nextFromId;

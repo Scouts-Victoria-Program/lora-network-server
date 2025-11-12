@@ -12,11 +12,12 @@ import { WebhookManager } from "./webhook";
 
 export function createApiApp(
   mqttManager: MqttManager,
-  webhookManager: WebhookManager
+  webhookManager: WebhookManager,
+  basePath: string,
 ) {
   const app = express();
 
-  app.get("/api/events", async (req, res) => {
+  app.get(`${basePath}api/events`, async (req, res) => {
     const fromId = req.query.from ? Number(req.query.from) : undefined;
 
     let events = [];
@@ -60,7 +61,7 @@ export function createApiApp(
     res.json(response);
   });
 
-  app.get("/api/webhooks", async (req, res) => {
+  app.get(`${basePath}api/webhooks`, async (req, res) => {
     const fromId = req.query.from ? Number(req.query.from) : undefined;
 
     let webhooks = [];
@@ -108,7 +109,7 @@ export function createApiApp(
     res.json(response);
   });
 
-  app.post("/api/webhooks/:id/resend", async (req, res) => {
+  app.post(`${basePath}api/webhooks/:id/resend`, async (req, res) => {
     if (!req.params.id) {
       res.status(400).send({ success: false, message: "Bad Request" });
       return;
@@ -131,7 +132,7 @@ export function createApiApp(
     res.json(response);
   });
 
-  app.post("/api/device", (req, res) => {
+  app.post(`${basePath}api/device`, (req, res) => {
     const data = JSON.parse(req.body);
 
     mqttManager.sendDownlink({

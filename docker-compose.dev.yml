@@ -108,7 +108,6 @@ services:
     ports:
       - 3000:3000
     volumes:
-      - ./lora-proxy/:/etc/nginx/conf.d/
       - proxydata:/data/
     depends_on:
       - kea
@@ -126,6 +125,8 @@ services:
       - MQTT_APP_ID=$CHIRPSTACK_APPLICATION_ID
 
       - WEBHOOK_TARGET=http://game.darends.scouthack.com:3333/api/injest
+
+      - BASE_PATH=/proxy/
     develop:
       watch:
         - action: sync

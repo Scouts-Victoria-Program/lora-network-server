@@ -24,7 +24,7 @@ export function webhooksHtml() {
 let cursorId: number | null = null;
 async function webhooksPoller() {
   const res = await fetch(
-    `/api/webhooks${cursorId ? "?from=" + cursorId : ""}`
+    `api/webhooks${cursorId ? "?from=" + cursorId : ""}`
   );
   const data = (await res.json()) as GetWebhookCalls;
 
@@ -48,7 +48,7 @@ async function webhooksPoller() {
           el.innerHTML = "Resending";
 
           try {
-            const res = await fetch(`/api/webhooks/${webhookId}/resend`, {
+            const res = await fetch(`api/webhooks/${webhookId}/resend`, {
               method: "post",
             });
             const data = (await res.json()) as PostWebhookCallRetry;
