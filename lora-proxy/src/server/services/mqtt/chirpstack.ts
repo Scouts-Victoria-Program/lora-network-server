@@ -11,6 +11,7 @@ interface MqttChirpStackProviderOptions {
 }
 
 export class MqttChirpStackProvider implements MqttProvider {
+  name = 'ChirpStack';
   options: MqttChirpStackProviderOptions;
 
   constructor(options: MqttChirpStackProviderOptions) {

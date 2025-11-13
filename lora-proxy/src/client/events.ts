@@ -6,7 +6,7 @@ export function eventsHtml() {
     <div id="events">
       <h2>MQTT Events</h2>
       <span class="tail-status" style="display:none;"></span>
-      <table>
+      <table class="log-table">
         <thead>
           <th>datetime</th>
           <th>data</th>

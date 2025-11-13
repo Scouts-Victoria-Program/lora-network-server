@@ -25,12 +25,12 @@ h1 {
   padding: 1rem;
 }
 
-table tr pre {
+table.log-table tr pre {
   height: 2rem;
   width: 15rem;
   overflow: hidden;
 }
-table tr:hover pre {
+table.log-table tr:hover pre {
   height: unset;
   overflow-y: vi;
 }

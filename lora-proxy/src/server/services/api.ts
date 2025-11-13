@@ -3,12 +3,15 @@ import { MqttManager } from "./mqtt/manager";
 import { prisma } from "./database";
 import {
   Event,
+  GetConfig,
   GetEvents,
   GetWebhookCalls,
+  PostConfigWebhookInput,
   PostWebhookCallRetry,
   WebhookCall,
 } from "../types/api";
 import { WebhookManager } from "./webhook";
+import { CONFIG_KEY_WEBHOOK_TARGET } from "../consts";
 
 export function createApiApp(
   mqttManager: MqttManager,
@@ -16,6 +19,8 @@ export function createApiApp(
   basePath: string,
 ) {
   const app = express();
+
+  app.use(express.json());
 
   app.get(`${basePath}api/events`, async (req, res) => {
     const fromId = req.query.from ? Number(req.query.from) : undefined;
@@ -141,6 +146,54 @@ export function createApiApp(
 
     res.json({ success: true });
   });
+
+  app.get(`${basePath}api/config`, async (req, res) => {
+
+    const webhookTarget = await prisma.config.findFirst({
+      where: {
+        key: CONFIG_KEY_WEBHOOK_TARGET
+      }
+    })
+
+    const response: GetConfig = {
+      success: true,
+      config: {
+        webhookUrl: webhookTarget?.value,
+        mqttOrigin: mqttManager.provider.name
+      }
+    }
+    res.json(response);
+  });
+
+
+  app.post(`${basePath}api/config/webhook`, async (req, res) => {
+    const data: PostConfigWebhookInput = req.body;
+    try {
+      await prisma.config.upsert({
+        where: {
+          key: CONFIG_KEY_WEBHOOK_TARGET
+        },
+        update: {
+          value: data.webhookUrl
+        },
+        create: {
+          key: CONFIG_KEY_WEBHOOK_TARGET,
+          value: data.webhookUrl
+        },
+      })
+
+      // url is looked up every time atm, so no caching is occurring.
+      // webhookManager.updateTarget()
+
+      res.json({ success: true });
+    } catch (e) {
+      const error = e as Error & { cause?: string };
+      console.error("Error:", error);
+      res.json({ success: false, error });
+
+    }
+  });
+
 
   return app;
 }

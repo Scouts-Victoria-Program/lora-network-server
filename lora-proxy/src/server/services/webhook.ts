@@ -1,26 +1,28 @@
 import { Prisma, WebhookCall } from "@prisma/client";
 import { prisma } from "./database";
-
-interface WebhookManagerOptions {
-  target: string;
-}
+import { CONFIG_KEY_WEBHOOK_TARGET } from "../consts";
 
 export class WebhookManager {
-  options: WebhookManagerOptions;
-  constructor() {
-    const webhookTarget = process.env.WEBHOOK_TARGET;
-    if (!webhookTarget) {
-      throw new Error(`Missing value for WEBHOOK_TARGET`);
-    }
-
-    this.options = {
-      target: webhookTarget,
-    };
-  }
+  constructor() { }
 
   async send(eventData: unknown): Promise<WebhookCall> {
+    const webhookTarget = await prisma.config.findFirst({
+      where: {
+        key: CONFIG_KEY_WEBHOOK_TARGET
+      }
+    })
+
+    if (webhookTarget === null) {
+      return await this.record({
+        req: JSON.stringify(eventData),
+        res: `Webhook Target is not defined`,
+        status: 401,
+        statusText: "Bad Request",
+      });
+    }
+
     try {
-      const response = await fetch(this.options.target, {
+      const response = await fetch(webhookTarget.value, {
         method: "post",
         body: JSON.stringify(eventData),
       });

@@ -29,3 +29,9 @@ model WebhookCall {
   statusCode Int
   statusText String
 }
+
+model Config {
+  id    Int @id @default(autoincrement())
+  key   String  @unique
+  value String
+}

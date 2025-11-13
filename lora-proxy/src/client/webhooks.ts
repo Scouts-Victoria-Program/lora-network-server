@@ -6,7 +6,7 @@ export function webhooksHtml() {
     <div id="webhooks">
       <h2>Webhook Call Log</h2>
       <span class="tail-status" style="display:none;"></span>
-      <table>
+      <table class="log-table">
         <thead>
             <th>datetime</th>
             <th>req</th>

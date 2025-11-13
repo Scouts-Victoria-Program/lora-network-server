@@ -8,6 +8,7 @@ interface MqttTTNProviderOptions {
 }
 
 export class MqttTTNProvider implements MqttProvider {
+  name = 'The Things Network';
   options: MqttTTNProviderOptions;
 
   constructor(options: MqttTTNProviderOptions) {

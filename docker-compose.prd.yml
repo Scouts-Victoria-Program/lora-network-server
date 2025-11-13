@@ -123,9 +123,7 @@ services:
       - MQTT_BROKER_TYPE=chirpstack
       - MQTT_APP_ID=$CHIRPSTACK_APPLICATION_ID
 
-      - WEBHOOK_TARGET=http://game.darends.scouthack.com/api/injest
-    extra_hosts:
-      - game.darends.scouthack.com=192.168.50.1
+      - BASE_PATH=/proxy/
 
   nginx:
     image: nginx:latest

@@ -124,8 +124,6 @@ services:
       - MQTT_BROKER_TYPE=chirpstack
       - MQTT_APP_ID=$CHIRPSTACK_APPLICATION_ID
 
-      - WEBHOOK_TARGET=http://game.darends.scouthack.com:3333/api/injest
-
       - BASE_PATH=/proxy/
     develop:
       watch:

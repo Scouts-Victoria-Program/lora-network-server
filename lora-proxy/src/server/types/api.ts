@@ -28,3 +28,18 @@ export interface WebhookCall {
   statusCode: number;
   statusText: string;
 }
+
+export interface GetConfig {
+  success: boolean;
+  config: {
+    webhookUrl: string;
+    mqttOrigin: string;
+  }
+}
+
+export interface PostConfigWebhookInput {
+  webhookUrl: string;
+}
+export interface PostConfigWebhook {
+  success: boolean;
+}

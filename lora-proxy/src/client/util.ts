@@ -1,3 +1,14 @@
+export function $<T extends HTMLElement = HTMLElement>(selector: string): T | null;
+export function $<T extends HTMLElement = HTMLElement>(parent: HTMLElement | null, selector: string): T | null;
+export function $<T extends HTMLElement = HTMLElement>(arg1: any, arg2?: any): T | null {
+  if (typeof arg1 === 'string') {
+    // First overload
+    return document.querySelector<T>(arg1);
+  } else {
+    return (arg1 as T).querySelector<T>(arg2);
+  }
+}
+
 interface Cell {
   text?: string;
   onClick?: (el: HTMLElement, ev: MouseEvent) => void;

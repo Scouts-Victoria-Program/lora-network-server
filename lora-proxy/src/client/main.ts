@@ -1,4 +1,4 @@
-import { configHtml } from "./configuration";
+import { configHtml, initConfigListeners, loadConfig } from "./configuration";
 import { downLinkHtml } from "./downLink";
 import { eventPollController, eventsHtml } from "./events";
 import { webhookPollController, webhooksHtml } from "./webhooks";
@@ -27,3 +27,6 @@ document.querySelector<HTMLDivElement>("#app")!.innerHTML = `
 
 webhookPollController.start();
 eventPollController.start();
+
+loadConfig();
+initConfigListeners();
