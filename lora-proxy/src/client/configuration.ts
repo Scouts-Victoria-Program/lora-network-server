@@ -5,29 +5,25 @@ export function configHtml() {
   return `
     <div id="config">
       <h2>Configuration</h2>
-      <table>
-        <tr class="webhook-url">
-          <td>Webhook URL</td>
-          <td>
-            <input type="checkbox" id="webhook-url-edit">
-            <span class="display">
-              <span>Loading..</span>
-              <label for="webhook-url-edit">Edit</label>
-            </span>
-            <span class="edit">
-              <input>
-              <button class="submit">Update</button>
-              <label for="webhook-url-edit">Cancel</label>
-            </span>
-          </td>
-        </tr>
-        <tr class="mqtt-origin">
-          <td>mqtt origin</td>
-          <td>
-            <span></span>
-          </td>
-        </tr>
-      </table>
+
+      <h3>Webhook URL</h3>
+      <span class="webhook-url">
+        <input type="checkbox" id="webhook-url-edit">
+        <span class="display">
+          <span>Loading..</span>
+          <label for="webhook-url-edit">Edit</label>
+        </span>
+        <span class="edit">
+          <input>
+          <button class="submit">Update</button>
+          <label for="webhook-url-edit">Cancel</label>
+        </span>
+      </span>
+
+      <h3>MQTT Origin</h3>
+      <span class="mqtt-origin">
+        <span></span>
+      </span>
     </div>
     <style>
     #config .webhook-url #webhook-url-edit,

@@ -7,14 +7,12 @@ html {
   background-color: black;
 }
 
-h1 {
-  color: white;
-}
 .row {
   display: flex;
   width: calc(100% - 2rem);
   margin: 1rem;
   gap: 1rem;
+  flex-wrap: wrap;
 }
 .row > div {
   flex: 1 1;
@@ -23,7 +21,44 @@ h1 {
   background-color: darkgray;
 
   padding: 1rem;
+  border-radius: 5px;
 }
+
+.header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+}
+h1 {
+  color: white;
+}
+.header .buttons {
+  display: flex;
+}
+
+.header .buttons * {
+  text-decoration: none;
+  color: black;
+}
+
+.header .buttons a {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-left: 10px;
+}
+.header .buttons a:first-child {
+  padding-left: 0;
+}
+
+.header .buttons img {
+  margin: 5px;
+  width: 50px;
+  height: 50px;
+}
+
 
 table.log-table tr pre {
   height: 2rem;
