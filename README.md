@@ -20,3 +20,13 @@
 
 1. LoRa GPS Tracker:
    [Dragino LGT-92](https://dragino.com/downloads/index.php?dir=LGT_92/)
+
+## development instructions
+
+docker compose up -d
+docker compose exec lora-proxy npx prisma migrate deploy
+
+### to make a migration
+docker compose exec lora-proxy npx prisma migrate dev
+mkdir ./lora-proxy/prisma/migrations/20251112052912_add_config_table/
+docker compose cp lora-proxy:/home/node/app/prisma/migrations/20251112052912_add_config_table/migration.sql ./lora-proxy/prisma/migrations/20251112052912_add_config_table/migration.sql
