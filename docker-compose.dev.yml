@@ -150,6 +150,9 @@ services:
       - bind
       - lora-proxy
       - chirpstack
+    extra_hosts:
+      - "gateway.docker.internal:192.168.50.10"
+      # - "gameservice.docker.internal:host-gateway"
 
   kea:
     # https://gitlab.isc.org/isc-projects/kea-docker
