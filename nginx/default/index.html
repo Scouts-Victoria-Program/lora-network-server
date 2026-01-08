@@ -1,16 +1,110 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>LoRa Network Server landing page</title>
-  </head>
-  <body>
-    <h1>LoRa Network Server landing page</h1>
 
-    <p>
-      <a href="http://chirpstack.darends.scouthack.com">Chirpstack</a><br />
-      <a href="http://lora-gateway.darends.scouthack.com">LoRa Gateway</a><br />
-      <a href="http://lora-app.darends.scouthack.com">SVStem LoRa Proxy</a><br />
-      <a href="http://game.darends.scouthack.com">Game</a><br />
-    </p>
-  </body>
+<head>
+  <title>LoRa Network Server</title>
+  <style>
+    html,
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+
+    .container {
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+      width: 100vw;
+    }
+
+    .header {
+      padding: 30px;
+    }
+
+    .buttons {
+      display: flex;
+      justify-content: space-around;
+      flex-wrap: wrap;
+      padding: 30px;
+    }
+
+    .button {
+      background-color: beige;
+      border-radius: 25px;
+      box-shadow: 5px 5px 5px lightgray;
+      padding: 30px;
+      margin-bottom: 30px;
+      width: 200px;
+    }
+
+    .button * {
+      text-decoration: none;
+      color: black;
+    }
+
+    .button a {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+
+    }
+
+    .button img {
+      margin: 15px;
+      width: 150px;
+      height: 150px;
+    }
+
+    .button span.subtitle {
+      text-align: center;
+      color: darkgray;
+      font-style: italic;
+      font-size: .7em;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>LoRa Network Server</h1>
+
+    </div>
+    <div class="buttons">
+      <div class="button">
+        <a href="http://lora-gateway.darends.scouthack.com">
+          <img src="assets/laird_logo.png" alt="LoRa_Gateway">
+          <span>LoRa Gateway</span>
+          <span class="subtitle">Accepts LoRa messages</span>
+        </a>
+      </div>
+      <div class="button">
+        <a href="http://chirpstack.darends.scouthack.com">
+          <img src="assets/chirpstack_logo.png" alt="Chirpstack">
+          <span>Chirpstack</span>
+          <span class="subtitle">Receives messages from the gateway<br>Emits messages via MQTT</span>
+        </a>
+      </div>
+      <div class="button">
+        <a href="/proxy/">
+          <img src="assets/proxy_logo.svg" alt="SVStem_LoRa_Proxy">
+          <span>SVStem LoRa Proxy</span>
+          <span class="subtitle">Records MQTT messages<br>Makes data available to game apps</span>
+        </a>
+      </div>
+      <div class="button">
+        <a href="/game/">
+          <img src="assets/game_logo.svg" alt="Game">
+          <span>LoRa Enabled Game</span>
+          <span class="subtitle">Capture the Flag, Battle of Wolf, Radioactiv8</span>
+        </a>
+      </div>
+
+
+    </div>
+  </div>
+
+</body>
+
 </html>
